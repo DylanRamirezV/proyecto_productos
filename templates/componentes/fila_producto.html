@@ -1,0 +1,20 @@
+{# Cada producto vive en su propio tbody: es la "unidad" que HTMX
+   reemplaza por el formulario de edición, la fila actualizada, etc. #}
+<tbody id="producto-{{ producto.id }}">
+    <tr>
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.precio }}</td>
+        <td>{{ producto.cantidad }}</td>
+        <td>{{ producto.descripcion or "" }}</td>
+        <td>
+            {# HTMX: al hacer clic se pide el formulario de edición y
+               la respuesta del servidor reemplaza este tbody completo. #}
+            <button
+                hx-get="/productos/{{ producto.id }}/editar"
+                hx-target="#producto-{{ producto.id }}"
+                hx-swap="outerHTML">
+                Editar
+            </button>
+        </td>
+    </tr>
+</tbody>

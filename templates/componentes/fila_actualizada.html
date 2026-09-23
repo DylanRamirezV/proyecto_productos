@@ -1,0 +1,24 @@
+{# Respuesta tras guardar con éxito: aviso + fila con los datos nuevos.
+   Al reemplazar el tbody completo, el aviso desaparece cuando el
+   usuario vuelve a editar o cancela. #}
+<tbody id="producto-{{ producto.id }}">
+    <tr>
+        <td colspan="5" style="border: none; padding: 0;">
+            <div class="aviso-exito">Producto actualizado correctamente.</div>
+        </td>
+    </tr>
+    <tr>
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.precio }}</td>
+        <td>{{ producto.cantidad }}</td>
+        <td>{{ producto.descripcion or "" }}</td>
+        <td>
+            <button
+                hx-get="/productos/{{ producto.id }}/editar"
+                hx-target="#producto-{{ producto.id }}"
+                hx-swap="outerHTML">
+                Editar
+            </button>
+        </td>
+    </tr>
+</tbody>

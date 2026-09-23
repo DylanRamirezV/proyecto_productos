@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de productos{% endblock %}
+
+{% block content %}
+    <h1>Productos</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        {% for producto in productos or [] %}
+            {% include "componentes/fila_producto.html" %}
+        {% else %}
+            <tbody>
+                <tr><td colspan="5">No hay productos para mostrar. ¿Ya implementaste obtener_productos() en repositorio.py?</td></tr>
+            </tbody>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -1,0 +1,53 @@
+<tbody id="producto-{{ producto.id }}">
+    <tr>
+        <td colspan="5">
+            {# Formulario de edición: se envía por POST con HTMX y la
+               respuesta del servidor reemplaza este tbody completo. #}
+            <form
+                hx-post="/productos/{{ producto.id }}"
+                hx-target="#producto-{{ producto.id }}"
+                hx-swap="outerHTML">
+
+                <div>
+                    <label>Nombre:
+                        <input type="text" name="nombre" value="{{ producto.nombre }}"
+                               class="{{ 'invalid' if errores and errores.nombre else '' }}">
+                    </label>
+                    {% if errores and errores.nombre %}<p class="error">{{ errores.nombre }}</p>{% endif %}
+                </div>
+
+                <div>
+                    <label>Precio:
+                        <input type="text" name="precio" value="{{ producto.precio }}"
+                               class="{{ 'invalid' if errores and errores.precio else '' }}"
+                               inputmode="decimal">
+                    </label>
+                    {% if errores and errores.precio %}<p class="error">{{ errores.precio }}</p>{% endif %}
+                </div>
+
+                <div>
+                    <label>Cantidad:
+                        <input type="number" name="cantidad" value="{{ producto.cantidad }}"
+                               class="{{ 'invalid' if errores and errores.cantidad else '' }}">
+                    </label>
+                    {% if errores and errores.cantidad %}<p class="error">{{ errores.cantidad }}</p>{% endif %}
+                </div>
+
+                <div>
+                    <label>Descripción:
+                        <textarea name="descripcion">{{ producto.descripcion or '' }}</textarea>
+                    </label>
+                </div>
+
+                <button type="submit" class="guardar">Guardar</button>
+                {# Cancelar devuelve la fila a su estado de solo lectura. #}
+                <button type="button" class="cancelar"
+                        hx-get="/productos/{{ producto.id }}/cancelar"
+                        hx-target="#producto-{{ producto.id }}"
+                        hx-swap="outerHTML">
+                    Cancelar
+                </button>
+            </form>
+        </td>
+    </tr>
+</tbody>

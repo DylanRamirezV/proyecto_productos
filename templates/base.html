@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Productos{% endblock %}</title>
+    <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.min.js"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; margin: 2rem; color: #222; }
+        h1 { font-size: 1.5rem; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: .5rem .75rem; text-align: left; vertical-align: top; }
+        th { background: #f3f4f6; }
+        input, textarea { width: 100%; box-sizing: border-box; padding: .35rem .5rem; margin-top: .15rem; }
+        textarea { height: 2.6rem; }
+        .error { color: #b91c1c; font-size: .8rem; }
+        input.invalid { border: 1px solid #b91c1c; }
+        button { padding: .35rem .8rem; cursor: pointer; }
+        .guardar { background: #16a34a; color: white; border: none; border-radius: 4px; }
+        .cancelar { background: #e5e7eb; border: none; border-radius: 4px; }
+        .aviso-exito { background: #dcfce7; border: 1px solid #16a34a; color: #14532d;
+                       padding: .5rem .75rem; border-radius: 4px; margin: 1rem 0; }
+        .aviso-error { background: #fee2e2; border: 1px solid #b91c1c; color: #7f1d1d;
+                      padding: .5rem .75rem; border-radius: 4px; margin: 1rem 0; }
+    </style>
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
