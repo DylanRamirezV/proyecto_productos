@@ -6,7 +6,7 @@ from pydantic import ValidationError
 
 from dependencias import ConnectionDep
 from esquemas import ProductoActualizar
-from repositorio import actualizar_producto, obtener_producto, obtener_productos
+from repositorio import actualizar_producto, obtener_producto, obtener_productos, eliminar_producto
 
 router = APIRouter(tags=["productos"])
 
