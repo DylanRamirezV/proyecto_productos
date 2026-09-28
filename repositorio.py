@@ -37,3 +37,19 @@ async def actualizar_producto(
         nombre, precio, cantidad, descripcion, producto_id
     )
     return resultado == "UPDATE 1"
+
+    async def eliminar_producto(conn, producto_id: int) -> bool:
+    """Elimina un producto identificado por su clave primaria (id).
+
+    Devuelve True si la consulta borró una fila, False si no existía.
+    """
+    resultado = await conn.execute(
+        """
+        DELETE FROM productos
+         WHERE id = $1
+        """,
+        producto_id,
+    )
+    # Igual que en el UPDATE: "DELETE 1" significa que se borró una fila.
+    # El WHERE con el id garantiza que solo se borra el producto elegido.
+    return resultado == "DELETE 1"

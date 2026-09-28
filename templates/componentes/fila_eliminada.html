@@ -1,0 +1,10 @@
+{# Respuesta tras borrar con éxito: el producto ya no está en la lista.
+   HTMX reemplaza el tbody de la fila por este aviso, así que la fila
+   desaparece de la tabla y el usuario ve qué ocurrió. #}
+<tbody id="producto-{{ producto_id }}">
+    <tr>
+        <td colspan="5">
+            <div class="aviso-exito">Producto eliminado correctamente.</div>
+        </td>
+    </tr>
+</tbody>

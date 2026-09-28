@@ -149,3 +149,21 @@ async def guardar_producto_vista(
         name="componentes/fila_actualizada.html",
         context={"producto": producto_actualizado},
     )
+
+    
+@router.delete("/productos/{producto_id}")
+async def eliminar_producto_vista(request: Request, conn: ConnectionDep, producto_id: int):
+    # HTMX envía esta petición cuando el usuario confirma el borrado
+    # (hx-delete + hx-confirm). Si cancela, la petición nunca sale del navegador.
+    eliminado = await eliminar_producto(conn, producto_id)
+    if not eliminado:
+        # "DELETE 0": el producto ya no estaba en la tabla. Se avisa al usuario
+        # y no se muestra ningún mensaje de éxito.
+        return producto_no_encontrado(request, producto_id)
+
+    # Éxito: la fila se sustituye por el aviso de que el producto se eliminó.
+    return templates.TemplateResponse(
+        request=request,
+        name="componentes/fila_eliminada.html",
+        context={"producto_id": producto_id},
+    )
