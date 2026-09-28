@@ -10,32 +10,32 @@
 
                 <div>
                     <label>Nombre:
-                        <input type="text" name="nombre" value="{{ producto.nombre }}"
-                               class="{{ 'invalid' if errores and errores.nombre else '' }}">
+                        <input type="text" name="nombre" value="{{ nombre }}"
+                               class="{{ 'invalid' if errores.nombre else '' }}">
                     </label>
-                    {% if errores and errores.nombre %}<p class="error">{{ errores.nombre }}</p>{% endif %}
+                    {% if errores.nombre %}<p class="error">{{ errores.nombre }}</p>{% endif %}
                 </div>
 
                 <div>
                     <label>Precio:
-                        <input type="text" name="precio" value="{{ producto.precio }}"
-                               class="{{ 'invalid' if errores and errores.precio else '' }}"
+                        <input type="text" name="precio" value="{{ precio }}"
+                               class="{{ 'invalid' if errores.precio else '' }}"
                                inputmode="decimal">
                     </label>
-                    {% if errores and errores.precio %}<p class="error">{{ errores.precio }}</p>{% endif %}
+                    {% if errores.precio %}<p class="error">{{ errores.precio }}</p>{% endif %}
                 </div>
 
                 <div>
                     <label>Cantidad:
-                        <input type="number" name="cantidad" value="{{ producto.cantidad }}"
-                               class="{{ 'invalid' if errores and errores.cantidad else '' }}">
+                        <input type="number" name="cantidad" value="{{ cantidad }}"
+                               class="{{ 'invalid' if errores.cantidad else '' }}">
                     </label>
-                    {% if errores and errores.cantidad %}<p class="error">{{ errores.cantidad }}</p>{% endif %}
+                    {% if errores.cantidad %}<p class="error">{{ errores.cantidad }}</p>{% endif %}
                 </div>
 
                 <div>
                     <label>Descripción:
-                        <textarea name="descripcion">{{ producto.descripcion or '' }}</textarea>
+                        <textarea name="descripcion">{{ descripcion }}</textarea>
                     </label>
                 </div>
 

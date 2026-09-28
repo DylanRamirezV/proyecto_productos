@@ -15,6 +15,18 @@
                 hx-swap="outerHTML">
                 Editar
             </button>
+
+            {# HTMX: hx-confirm muestra un cuadro de confirmación del navegador
+               ANTES de enviar la petición. Si el usuario cancela, no se envía
+               nada al servidor. Si acepta, se ejecuta DELETE /productos/{id}
+               y la respuesta del servidor reemplaza este tbody. #}
+            <button class="eliminar"
+                    hx-delete="/productos/{{ producto.id }}"
+                    hx-confirm="¿Eliminar el producto «{{ producto.nombre }}»? Esta acción no se puede deshacer."
+                    hx-target="#producto-{{ producto.id }}"
+                    hx-swap="outerHTML">
+                Eliminar
+            </button>
         </td>
     </tr>
 </tbody>

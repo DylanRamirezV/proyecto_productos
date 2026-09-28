@@ -1,19 +1,38 @@
-# repositorio.py
 # Este archivo concentra todas las consultas SQL del ejercicio.
 # Todas usan parámetros ($1, $2, ...): nunca se concatenan valores
 # recibidos del formulario dentro del texto SQL.
+#
+# Las cuatro operaciones siguen el mismo camino:
+#   interfaz (HTMX) -> ruta de FastAPI (vistas.py) -> función de este archivo
+#   -> consulta SQL -> PostgreSQL.
 
 
 async def obtener_productos(conn) -> list[dict]:
     """Devuelve todos los productos, ordenados por nombre."""
-    filas = await conn.fetch("SELECT * FROM productos ORDER BY nombre ASC;")
+    filas = await conn.fetch(
+        """
+        SELECT id, nombre, precio, cantidad, descripcion
+          FROM productos
+         ORDER BY nombre
+        """
+    )
+    # asyncpg devuelve objetos Record; los pasamos a dict para que Jinja2
+    # pueda leerlos con producto.nombre, producto.precio, etc.
     return [dict(fila) for fila in filas]
 
 
 async def obtener_producto(conn, producto_id: int) -> dict | None:
     """Busca un producto por su clave primaria (id)."""
-    fila = await conn.fetchrow("SELECT * FROM productos WHERE id = $1;", producto_id)
-    return dict(fila) if fila else None
+    fila = await conn.fetchrow(
+        """
+        SELECT id, nombre, precio, cantidad, descripcion
+          FROM productos
+         WHERE id = $1
+        """,
+        producto_id,
+    )
+    # fetchrow devuelve None cuando no hay ninguna fila con ese id.
+    return dict(fila) if fila is not None else None
 
 
 async def actualizar_producto(
@@ -31,14 +50,21 @@ async def actualizar_producto(
     resultado = await conn.execute(
         """
         UPDATE productos
-        SET nombre = $1, precio = $2, cantidad = $3, descripcion = $4
-        WHERE id = $5;
+           SET nombre = $2, precio = $3, cantidad = $4, descripcion = $5
+         WHERE id = $1
         """,
-        nombre, precio, cantidad, descripcion, producto_id
+        producto_id,
+        nombre,
+        precio,
+        cantidad,
+        descripcion,
     )
+    # asyncpg devuelve la cadena "UPDATE 1" si modificó una fila
+    # (y "UPDATE 0" si el id no existía).
     return resultado == "UPDATE 1"
 
-    async def eliminar_producto(conn, producto_id: int) -> bool:
+
+async def eliminar_producto(conn, producto_id: int) -> bool:
     """Elimina un producto identificado por su clave primaria (id).
 
     Devuelve True si la consulta borró una fila, False si no existía.

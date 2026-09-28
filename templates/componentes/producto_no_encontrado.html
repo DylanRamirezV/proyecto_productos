@@ -1,9 +1,32 @@
-<tbody id="producto-{{ producto_id }}">
+{# Cada producto vive en su propio tbody: es la "unidad" que HTMX
+   reemplaza por el formulario de edición, la fila actualizada, etc. #}
+<tbody id="producto-{{ producto.id }}">
     <tr>
-        <td colspan="5">
-            <div class="aviso-error">
-                No se encontró el producto con id {{ producto_id }}.
-            </div>
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.precio }}</td>
+        <td>{{ producto.cantidad }}</td>
+        <td>{{ producto.descripcion or "" }}</td>
+        <td>
+            {# HTMX: al hacer clic se pide el formulario de edición y
+               la respuesta del servidor reemplaza este tbody completo. #}
+            <button
+                hx-get="/productos/{{ producto.id }}/editar"
+                hx-target="#producto-{{ producto.id }}"
+                hx-swap="outerHTML">
+                Editar
+            </button>
+
+            {# HTMX: hx-confirm muestra un cuadro de confirmación del navegador
+               ANTES de enviar la petición. Si el usuario cancela, no se envía
+               nada al servidor. Si acepta, se ejecuta DELETE /productos/{id}
+               y la respuesta del servidor reemplaza este tbody. #}
+            <button class="eliminar"
+                    hx-delete="/productos/{{ producto.id }}"
+                    hx-confirm="¿Eliminar el producto «{{ producto.nombre }}»? Esta acción no se puede deshacer."
+                    hx-target="#producto-{{ producto.id }}"
+                    hx-swap="outerHTML">
+                Eliminar
+            </button>
         </td>
     </tr>
 </tbody>

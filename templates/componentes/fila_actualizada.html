@@ -19,6 +19,15 @@
                 hx-swap="outerHTML">
                 Editar
             </button>
+
+            {# El botón Eliminar también debe aparecer después de editar. #}
+            <button class="eliminar"
+                    hx-delete="/productos/{{ producto.id }}"
+                    hx-confirm="¿Eliminar el producto «{{ producto.nombre }}»? Esta acción no se puede deshacer."
+                    hx-target="#producto-{{ producto.id }}"
+                    hx-swap="outerHTML">
+                Eliminar
+            </button>
         </td>
     </tr>
 </tbody>
